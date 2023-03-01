@@ -10,5 +10,4 @@
   <ItemGroup>
     <ProjectReference Include="..\FraudulentBank.Customer\FraudulentBank.Customer.csproj" />
   </ItemGroup>
-
 </Project>
