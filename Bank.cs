@@ -65,7 +65,7 @@ namespace BankApp.App
             string accountNum = GenerateAccountNum();
 
             var userInfo = $"UserName: {username}, Email: {email}, Age: {age}, Phone: {phone}, Password: {password}, AcctNum {accountNum}"; 
-            File.AppendAllText($@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\Users.Txt", userInfo);
+            File.AppendAllText($@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\{accountNum}.Txt", userInfo);
 
             Console.WriteLine("Account Created successfully.");
 
@@ -123,19 +123,33 @@ namespace BankApp.App
 
         public static bool VerifyCredentials(string username, string password)
         {
-            string filePath = $@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\Users.Txt";
-            //string accountNum = File.ReadAllText(filePath);
-            string data = null;
-
-            if (File.Exists(filePath))
+            string accountNum = GenerateAccountNum();
+            using (StreamReader file = new StreamReader($@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue{accountNum}.Txt"))
             {
-                using (StreamReader reader = new StreamReader(filePath))
+                string user;
+                while ((user = file.ReadLine()) != null)
                 {
-                    data = reader.ReadLine();
-                }
-            }
+                    //var splitString = user.Split(' ');
 
-            Console.WriteLine("Data read from file: " + data);
+                    //password = splitString[splitString.Length - 1];
+                    //Console.WriteLine(user);
+
+                    string filePath = $@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue{accountNum}.Txt";
+                    string data = null;
+
+                    if (File.Exists(filePath))
+                    {
+                        using (StreamReader reader = new StreamReader(filePath))
+                        {
+                            data = reader.ReadLine();
+                        }
+                    }
+
+                    Console.WriteLine("Data read from file: " + data);
+
+                }
+                file.Close();
+            }
 
             return username == "username" && password == "password";
            
