@@ -28,6 +28,16 @@ namespace FraudulentBank
                         UserAccount.Signup(fileName);
                         break;
                     case "2":
+                        string accountNumber = UserAccount.Login(fileName);
+
+                        if (accountNumber != null)
+                        {
+                            LoggedInMenu.ShowMenu(fileName, accountNumber);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid credentials. Please try again.");
+                        }
                         UserAccount.Login(fileName);
                         break;
                     case "3":
