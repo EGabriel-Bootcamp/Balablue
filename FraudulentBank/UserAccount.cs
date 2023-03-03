@@ -36,8 +36,7 @@ public class UserAccount
     }
     public static string Login(string fileName)
     {
-        while (true) 
-        { 
+      
             Console.WriteLine("Please enter your account number:");
             var accountNumber = Console.ReadLine();
 
@@ -69,21 +68,24 @@ public class UserAccount
             if (string.IsNullOrWhiteSpace(accountNumber) || string.IsNullOrWhiteSpace(password))
             {
                 Console.WriteLine("Invalid input. Please try again.");
-                continue;
+            return null;
             }
-
-            foreach (string line in lines)
+            else
             {
-                string[] fields = line.Split(',');
-                if (fields[0] == accountNumber && fields[1] == password)
+                foreach (string line in lines)
                 {
-                    Console.WriteLine("Login successful!");
-                    return accountNumber;
+                    string[] fields = line.Split(',');
+                    if (fields[0] == accountNumber && fields[1] == password)
+                    {
+                        Console.WriteLine("Login successful!");
+                        //return accountNumber;
+                    }
                 }
             }
+        return accountNumber;
 
-            Console.WriteLine("Invalid account number or password. Please try again.");
-        }
+        //Console.WriteLine("Invalid account number or password. Please try again.");
+
     }
 }
 

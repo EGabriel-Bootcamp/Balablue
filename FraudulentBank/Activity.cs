@@ -15,18 +15,41 @@ public class Activity
             decimal balance = decimal.Parse(values[4]);
 
             Console.WriteLine("Enter amount to deposit:");
-            var amount = decimal.Parse(Console.ReadLine());
+            var inputAmt = Console.ReadLine();
+            if (string.IsNullOrEmpty(inputAmt))
+            {
+                Console.WriteLine("---INVALID DEPOSIT AMOUNT NOTIFICATION---");
+                Console.WriteLine("Invalid Deposit Amount!");
+                Console.WriteLine("---------------------");
+            }
+            else if (decimal.TryParse(inputAmt, out decimal amount)) 
+            {
+                if (amount < 0)
+                {
+                    Console.WriteLine("---INVALID DEPOSIT AMOUNT NOTIFICATION---");
+                    Console.WriteLine("Invalid Deposit Amount!");
+                    Console.WriteLine("---------------------");
+                }
+                else
+                {
+                    balance += amount;
+                    values[4] = balance.ToString();
+                    string newLine = string.Join(",", values);
+                    int index = Array.IndexOf(lines, line);
+                    lines[index] = newLine;
+                    File.WriteAllLines(fileName, lines);
 
-            balance += amount;
-            values[4] = balance.ToString();
-            string newLine = string.Join(",", values);
-            int index = Array.IndexOf(lines, line);
-            lines[index] = newLine;
-            File.WriteAllLines(fileName, lines);
-
-            Console.WriteLine("---DEPOSIT NOTIFICATION--");
-            Console.WriteLine($"Deposit successful! New balance is: N{balance:N2}");
-            Console.WriteLine("-----------------");
+                    Console.WriteLine("---DEPOSIT NOTIFICATION--");
+                    Console.WriteLine($"Deposit successful! New balance is: N{balance:N2}");
+                    Console.WriteLine("-----------------");
+                } 
+            }
+            else
+            {
+                Console.WriteLine("---INVALID DEPOSIT AMOUNT NOTIFICATION---");
+                Console.WriteLine("Invalid Deposit Amount!");
+                Console.WriteLine("---------------------");
+            }
         }
         else
         {
@@ -46,25 +69,42 @@ public class Activity
             decimal balance = decimal.Parse(values[4]);
 
             Console.WriteLine("Enter amount to withdraw:");
-            var amount = decimal.Parse(Console.ReadLine());
-
-            if (amount > balance)
+            var inputAmt = Console.ReadLine();
+            if (string.IsNullOrEmpty(inputAmt))
             {
-                Console.WriteLine("Insufficient balance. Please try again.");
+                Console.WriteLine("---INVALID WITHDRAWAL AMOUNT NOTIFICATION---");
+                Console.WriteLine("Invalid Withdrawal Amount!");
+                Console.WriteLine("---------------------");
+            }
+            else if(decimal.TryParse(inputAmt, out decimal amount))
+            {
+                if (amount > balance)
+                {
+                    Console.WriteLine("---INSUFFICIENT BALANCE");
+                    Console.WriteLine("Insufficient balance. Please try again.");
+                    Console.WriteLine("--------------------");
+                }
+                else
+                {
+                    balance -= amount;
+                    values[4] = balance.ToString();
+                    string newLine = string.Join(",", values);
+                    int index = Array.IndexOf(lines, line);
+                    lines[index] = newLine;
+                    File.WriteAllLines(fileName, lines);
+
+                    Console.WriteLine("---WITHDRAWAL NOTIFICATION--");
+                    Console.WriteLine($"Withdrawal successful! New balance is: N{balance:N2}");
+                    Console.WriteLine("-------------------");
+                }
             }
             else
             {
-                balance -= amount;
-                values[4] = balance.ToString();
-                string newLine = string.Join(",", values);
-                int index = Array.IndexOf(lines, line);
-                lines[index] = newLine;
-                File.WriteAllLines(fileName, lines);
-
-                Console.WriteLine("---WITHDRAWAL NOTIFICATION--");
-                Console.WriteLine($"Withdrawal successful! New balance is: N{balance:N2}");
-                Console.WriteLine("-------------------");
+                Console.WriteLine("---INVALID WITHDRAWAL AMOUNT NOTIFICATION---");
+                Console.WriteLine("Invalid Withdrawal Amount!");
+                Console.WriteLine("---------------------");
             }
+            
         }
         else
         {
