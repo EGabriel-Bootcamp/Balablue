@@ -60,6 +60,11 @@ namespace BankApp.App
                     Console.WriteLine("Invalid username.");
                 }
 
+                if (input < 0)
+                {
+                    Console.WriteLine("Invalid input. Please enter a non-negative number.");
+                }
+
                 else
                 {
                     var transaction = new Transactions(username, input, DateTime.Now);
@@ -74,10 +79,6 @@ namespace BankApp.App
                     Console.WriteLine("Deposit of {0} successful. New balance is {1}.", input, account.Balance);
                 }
 
-                if (input < 0)
-                {
-                    Console.WriteLine("Invalid input. Please enter a non-negative number.");
-                }
             //}
             Console.WriteLine("Final balance is {0}.", account.Balance);
            
