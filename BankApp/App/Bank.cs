@@ -1,227 +1,199 @@
 ﻿using BankApp.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Globalization;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace BankApp.App
 {
     public static class Bank
     {
-        public static string Signup()
+
+        public static void Logout()
         {
-            Console.Clear();
-
-            string username;
-            Console.Write("Enter your username: ");
-            username = Console.ReadLine();
-
-            while (string.IsNullOrEmpty(username))
-            {
-                Console.WriteLine("Username field is required. Please enter your username again.");
-                username = Console.ReadLine();
-            }
-
-            string email;
-            Console.Write("Enter your email: ");
-            email = Console.ReadLine();
-
-            while (string.IsNullOrEmpty(email))
-            {
-                Console.WriteLine("Email field is required. Please enter your email again.");
-                email = Console.ReadLine();
-            }
-
-            string age;
-            Console.Write("Enter your age: ");
-            age = Console.ReadLine();
-
-            while (string.IsNullOrEmpty(age))
-            {
-                Console.WriteLine("age field is required. Please enter your age again.");
-                age = Console.ReadLine();
-            }
-
-            string phone;
-            Console.Write("Enter your phone: ");
-            phone = Console.ReadLine();
-
-            while (string.IsNullOrEmpty(phone))
-            {
-                Console.WriteLine("phone field is required. Please enter your phone again.");
-                phone = Console.ReadLine();
-            }
-
-            string password;
-            Console.Write("Enter your password: ");
-            password = Console.ReadLine();
-
-            while (string.IsNullOrEmpty(password))
-            {
-                Console.WriteLine("Password field is required. Please enter your password again.");
-                password = Console.ReadLine();
-            }
-            string accountNum = GenerateAccountNum();
-
-            var userInfo = $"UserName: {username}, Email: {email}, Age: {age}, Phone: {phone}, Password: {password}, AcctNum {accountNum}"; 
-            File.AppendAllText($@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\Users.Txt", userInfo);
-
-            Console.WriteLine("Account Created successfully.");
-
-            return userInfo;
+            Console.WriteLine("Thank You for banking with us..");
+            Environment.Exit(0);
         }
 
-        public static string GenerateAccountNum()
+        public static void Balance()
         {
-            //string accountType = "Savings";
-            int randomNum = new Random().Next(10000000, 99999999);
-            string accountNum = $"{randomNum}";
-            Console.WriteLine($"Account Number is: {accountNum}");
-            return accountNum;
-        }
+            Console.Write("Enter username: ");
+            string username = Console.ReadLine();
 
-        public static void Login()
-        {
-            Console.Clear();
-            int attempts = 0;
-            string username, password;
+            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
+            CreateAccount c = CreateAccount.LoadCustomerFromFile(username);
 
-            do
+            var name = c.UserName.Split(' ')[1];
+
+            if (name != username)
             {
-                Console.Write("Please enter your username:");
-                username = Console.ReadLine();
-
-                Console.Write("Please enter your password:");
-                password = Console.ReadLine();
-
-                attempts++;
-
-                if (VerifyCredentials(username, password))
-                {
-                    Console.WriteLine("Credentials verified. Welcome to the application!");
-                    // Take the user to the main screen here.
-                    Entry.Auth();
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid credentials. Please try again.");
-                }
-            } while (attempts < 3);
-
-            if (attempts == 3)
-            {
-                Console.WriteLine("Too many attempts. Your account has been locked.");
-                
-                Environment.Exit(0);
-            }
-
-            Console.ReadKey();
-            //return login;
-        }
-
-        public static bool VerifyCredentials(string username, string password)
-        {
-            string filePath = $@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\Users.Txt";
-            //string accountNum = File.ReadAllText(filePath);
-            string data = null;
-
-            if (File.Exists(filePath))
-            {
-                using (StreamReader reader = new StreamReader(filePath))
-                {
-                    data = reader.ReadLine();
-                }
-            }
-
-            Console.WriteLine("Data read from file: " + data);
-
-            return username == "username" && password == "password";
-           
-        }
-
-        public static double Deposit()
-        {
-            double accountBalance = 100000;
-            bool quit = false;
-
-            while (!quit)
-            {
-                Console.WriteLine("Enter the amount to deposit (or 'q' to quit): ");
-                string input = Console.ReadLine();
-
-                if (input == "q")
-                {
-                    quit = true;
-                }
-                else
-                {
-                    double deposit;
-                    bool isNumeric = double.TryParse(input, out deposit);
-
-                    if (!isNumeric || deposit < 0)
-                    {
-                        Console.WriteLine("Invalid input. Please enter a non-negative number.");
-                    }
-                    else
-                    {
-                        accountBalance += deposit;
-                        Console.WriteLine($"Deposit of {0} successful. New balance is {1}.", deposit, accountBalance);
-                    }
-                }
-            }
-
-            Console.WriteLine($"Exiting program. Final balance is {0}.", accountBalance);
-            return accountBalance;
-        }
-
-        public static void Withdrawal()
-        {
-            decimal accountBalance = 100000;
-          
-            Console.Write("Enter withdrawal amount: ");
-            string input = Console.ReadLine();
-
-            decimal withdrawalAmount;
-            if (decimal.TryParse(input, out withdrawalAmount) && withdrawalAmount >= 0)
-            {
-                // check if withdrawal amount is greater than balance
-                if (withdrawalAmount <= accountBalance)
-                {
-                    // deduct withdrawal amount from balance
-                    accountBalance -= withdrawalAmount;
-                    Console.WriteLine($"Withdrawal successful. New balance: {0:C}", accountBalance);
-                }
-                else
-                {
-                    Console.WriteLine("Not sufficient fund available.");
-                }
+                Console.WriteLine("Invalid username.");
+                return;
             }
             else
             {
-                Console.WriteLine("Invalid withdrawal amount.");
+                Console.WriteLine($"Balance: {c.Balance}");
             }
         }
 
-        public static void Transactions()
+        public static void Deposit(string username)
         {
+            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
+            CreateAccount account = CreateAccount.LoadCustomerFromFile(username);
+            bool quit = false;
+            //while (!quit)
+            //{
+                Console.WriteLine("Enter the amount to deposit: ");
+                decimal input = decimal.Parse(Console.ReadLine());
 
-            List<Transactions> transactions = new List<Transactions> {
-            new Transactions { Date = DateTime.Parse("2/1/2023"), Amount = 1000, Balance = 1000 },
-            new Transactions { Date = DateTime.Parse("2/4/2023"), Amount = 5000, Balance = 6000 },
-            new Transactions { Date = DateTime.Parse("2/5/2023"), Amount = -2000, Balance = 4000 }
-            };
+                var name = account.UserName.Split(' ')[1];
 
-            // Loop through transactions and print information
-            foreach (Transactions t in transactions)
+                if (name != username)
+                {
+                    Console.WriteLine("Invalid username.");
+                }
+
+                else
+                {
+                    var transaction = new Transactions(username, input, DateTime.Now);
+
+                    account.Balance += input;
+
+                    string transactionFileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+                    using (StreamWriter writer = File.AppendText(transactionFileName))
+                    {
+                        writer.WriteLine($"{transaction.UserName}|{transaction.Amount}|{transaction.Date}");
+                    }
+                    Console.WriteLine("Deposit of {0} successful. New balance is {1}.", input, account.Balance);
+                }
+
+                if (input < 0)
+                {
+                    Console.WriteLine("Invalid input. Please enter a non-negative number.");
+                }
+            //}
+            Console.WriteLine("Final balance is {0}.", account.Balance);
+           
+        }
+        public static void Withdrawal(string username)
+        {
+            //decimal accountBalance = 100000;
+
+            Console.Write("Enter withdrawal amount: ");
+            decimal input = decimal.Parse(Console.ReadLine());
+
+            List<CreateAccount> account = new List<CreateAccount>();
+
+            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
+            CreateAccount createAccount = CreateAccount.LoadCustomerFromFile(username);
+
+            var name = createAccount.UserName.Split(' ')[1];
+            if (name != username)
             {
-                Console.WriteLine($"Transaction Date: {0} === Transaction Amount: {1} === Current Balance: {2}",
-                t.Date, t.Amount, t.Balance);
+                Console.WriteLine("Invalid username.");
+                return;
+            }
+
+            if (input > createAccount.Balance)
+            {
+                Console.WriteLine("Insufficient funds.");
+                return;
+            }
+
+            var transaction = new Transactions(username, input, DateTime.Now);
+
+            // Update the customer's balance
+            createAccount.Balance -= input;
+
+            // Append transaction to transaction history file
+            string transactionFileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+            using (StreamWriter writer = File.AppendText(transactionFileName))
+            {
+                writer.WriteLine($"{transaction.UserName}|{transaction.Amount}|{transaction.Date}");
+            }
+
+            Console.WriteLine($"Withdraw successful. Your new balance is {createAccount.Balance}");
+        }
+
+        public static void SaveTransactionToFile(string username, Transactions transaction)
+        {
+            string fileName = "Transaction.txt";
+            string filePath = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + username + fileName;
+
+            // Write the transaction data to the file
+            using (StreamWriter writer = File.AppendText(filePath))
+            {
+                //string transactionData = $"{username}, {transaction.Amount}, {transaction.Date}";
+                
+                writer.WriteLine($"{username}|{transaction.Amount}|{transaction.Date}");
+            }
+            //Console.WriteLine("kkkkk");
+        }
+       
+        public static void DisplayTransactionHistory()
+        {
+            Console.Write("Enter username:");
+            string username = Console.ReadLine();
+
+            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
+            string transactionFileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+
+            CreateAccount c = CreateAccount.LoadCustomerFromFile(username);
+
+            var name = c.UserName.Split(' ')[1];
+            if (name != username)
+            {
+                Console.WriteLine("Invalid username.");
+                return;
+            }
+
+            else
+            {
+                // Display the customer's transaction history
+                Console.WriteLine($"Transaction history for {c.UserName}");
+                List<Transactions> transactions = LoadTransactionHistoryFromFile(username);
+                foreach (Transactions transaction in transactions)
+                {
+                    Console.WriteLine($"Username: {transaction.UserName}\tAmount: {transaction.Amount}\tDate: {transaction.Date}");
+                }
+            }
+
+
+            static List<Transactions> LoadTransactionHistoryFromFile(string username)
+            {
+                string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+
+                if (!File.Exists(fileName))
+                {
+                    throw new FileNotFoundException($"File not found: {fileName}");
+                }
+
+                List<Transactions> transactions = new List<Transactions>();
+
+                using (StreamReader reader = new StreamReader(fileName))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] fields = line.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                        DateTime date = DateTime.ParseExact(fields[2], "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                        decimal amount = decimal.Parse(fields[1]);
+                        Transactions transaction = new Transactions(username, amount, date);
+                        transactions.Add(transaction);
+                    }
+                }
+
+                return transactions;
             }
         }
     }
-
 }
 
 
