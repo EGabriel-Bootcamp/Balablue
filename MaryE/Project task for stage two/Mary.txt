@@ -1,0 +1,7 @@
+Username: Mary
+Password: 123456
+Email: mary@sample.com
+Age: 33
+Phone: 090877
+Balance: 100000
+Transaction Summary:

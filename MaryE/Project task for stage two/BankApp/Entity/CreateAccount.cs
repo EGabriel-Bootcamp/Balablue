@@ -88,7 +88,7 @@ namespace BankApp.Entity
 
             var user = new CreateAccount(username,password,email,age,phone,balance);
 
-            string filename = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{user.UserName}.txt";
+            string filename = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{user.UserName}.txt";
 
             if (File.Exists(filename))
             {
@@ -108,7 +108,7 @@ namespace BankApp.Entity
 
         public static void SaveUserToFile(CreateAccount user)
         {
-            string filePath = $@"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\{user.UserName}.txt";
+            string filePath = $@"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\{user.UserName}.txt";
             using (StreamWriter writer = new StreamWriter(filePath))
             {
                 writer.WriteLine($"Username: {user.UserName}");
@@ -208,7 +208,7 @@ namespace BankApp.Entity
 
         public static CreateAccount LoadCustomerFromFile(string name)
         {
-            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{name}.txt";
+            string fileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{name}.txt";
 
             if (!File.Exists(fileName))
             {
@@ -237,7 +237,7 @@ namespace BankApp.Entity
         public static void SaveCustomersToFile(List<CreateAccount> createAccounts)
         {
             string fileName = "user.txt";
-            string filePath = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + fileName;
+            string filePath = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + fileName;
 
             using (StreamWriter writer = new StreamWriter(filePath))
             {

@@ -16,7 +16,7 @@ namespace BankApp.App
             Console.Write("Enter username: ");
             string username = Console.ReadLine();
 
-            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
+            string fileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}.txt";
             CreateAccount c = CreateAccount.LoadCustomerFromFile(username);
 
             var name = c.UserName.Split(' ')[1];
@@ -34,7 +34,7 @@ namespace BankApp.App
 
         public static void Deposit(string username)
         {
-            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
+            string fileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}.txt";
             CreateAccount account = CreateAccount.LoadCustomerFromFile(username);
 
             Console.WriteLine("Enter the amount to deposit: ");
@@ -58,7 +58,7 @@ namespace BankApp.App
 
                 account.Balance += input;
 
-                string transactionFileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+                string transactionFileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}_Transaction.txt";
                 using (StreamWriter writer = File.AppendText(transactionFileName))
                 {
                     writer.WriteLine($"{transaction.UserName}|{transaction.Amount}|{transaction.Date}");
@@ -78,7 +78,7 @@ namespace BankApp.App
 
             List<CreateAccount> account = new List<CreateAccount>();
 
-            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
+            string fileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}.txt";
             CreateAccount createAccount = CreateAccount.LoadCustomerFromFile(username);
 
             var name = createAccount.UserName.Split(' ')[1];
@@ -100,7 +100,7 @@ namespace BankApp.App
             createAccount.Balance -= input;
 
             // Append transaction to transaction history file
-            string transactionFileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+            string transactionFileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}_Transaction.txt";
             using (StreamWriter writer = File.AppendText(transactionFileName))
             {
                 writer.WriteLine($"{transaction.UserName}|{transaction.Amount}|{transaction.Date}");
@@ -112,7 +112,7 @@ namespace BankApp.App
         public static void SaveTransactionToFile(string username, Transactions transaction)
         {
             string fileName = "Transaction.txt";
-            string filePath = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + username + fileName;
+            string filePath = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + username + fileName;
 
             // Write the transaction data to the file
             using (StreamWriter writer = File.AppendText(filePath))
@@ -127,8 +127,8 @@ namespace BankApp.App
             Console.Write("Enter username:");
             string username = Console.ReadLine();
 
-            string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}.txt";
-            string transactionFileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+            string fileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}.txt";
+            string transactionFileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}_Transaction.txt";
 
             CreateAccount c = CreateAccount.LoadCustomerFromFile(username);
 
@@ -153,7 +153,7 @@ namespace BankApp.App
 
             static List<Transactions> LoadTransactionHistoryFromFile(string username)
             {
-                string fileName = @"C:\Users\erhie\Desktop\MaryE\Project task for stage two\BankApp\Balablue\" + $"{username}_Transaction.txt";
+                string fileName = @"C:\Users\erhie\Desktop\Bootcamp Projects\Balablue\MaryE\Project task for stage two\" + $"{username}_Transaction.txt";
 
                 if (!File.Exists(fileName))
                 {
@@ -168,7 +168,7 @@ namespace BankApp.App
                     while ((line = reader.ReadLine()) != null)
                     {
                         string[] fields = line.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                        DateTime date = DateTime.ParseExact(fields[2], "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+                        DateTime date = DateTime.ParseExact(fields[2], "dd/MM/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
                         decimal amount = decimal.Parse(fields[1]);
                         Transactions transaction = new Transactions(username, amount, date);
                         transactions.Add(transaction);
