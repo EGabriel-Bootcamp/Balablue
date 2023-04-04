@@ -25,6 +25,7 @@ namespace Usermanagement_Domain.Models
         public string State { get; set; }
         public string Country { get; set; }
         public DateTime RegisteredAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public bool status { get; set; }
 
     }

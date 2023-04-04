@@ -60,9 +60,39 @@ namespace UserManagement_Presentation.Controllers
                 City = regDTO.City,
                 State = regDTO.State,
                 Country = regDTO.Country,
+                RegisteredAt = DateTime.Now
             };
             await _repo.CreateAsync(newuser);
             return Ok("User creation successful");
+        }
+        [HttpPut]
+        public async Task<ActionResult<UpsertDTO>> UpdateUser(UpsertDTO updateDTO)
+        {
+            if(updateDTO == null)
+            {
+                return BadRequest("Invalid Input");
+            }
+
+            var userExist = await _repo.GetAsync(u=>u.UserName == updateDTO.UserName);
+            if(userExist == null)
+            {
+                return NotFound($"Username '{updateDTO.UserName}' does not exist");
+            }
+
+
+            userExist.Password = updateDTO.Password;
+            userExist.Email = updateDTO.Email;
+            userExist.FirstName = updateDTO.FirstName;
+            userExist.LastName = updateDTO.LastName;
+            userExist.Age = updateDTO.Age;
+            userExist.Address = updateDTO.Address;
+            userExist.City = updateDTO.City;
+            userExist.State = updateDTO.State;
+            userExist.Country = updateDTO.Country;
+            userExist.UpdatedAt = DateTime.Now;
+
+            await _repo.UpdateAsync(userExist);
+            return Ok("User Updated Successfully");
         }
     }
 }
