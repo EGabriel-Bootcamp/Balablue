@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using UserManagement_DataAccess;
+using UserManagement_DataAccess.InterfacesImplementation;
+using Usermanagement_Domain.Interfaces;
+using Usermanagement_Domain.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserManagementContext>(option => option.UseSqlServer(
         builder.Configuration.GetConnectionString("UsersConnection")
     ));
-
+builder.Services.AddScoped<IRepository<Users>, Repository<Users>>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
