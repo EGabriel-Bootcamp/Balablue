@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Usermanagement_Domain.Interfaces;
+using Usermanagement_Domain.Models;
 
 namespace UserManagement_DataAccess.InterfacesImplementation
 {
@@ -36,16 +37,28 @@ namespace UserManagement_DataAccess.InterfacesImplementation
             }
         }
 
-        public Task DeleteRangeAsync(Expression<Func<T, bool>> propertyName)
+        public async Task<List<T>> DeleteMultipleAsync(List<T> entitiesToDelete)
         {
-            throw new NotImplementedException();
+            var entities = await dbSet.Where(e=>entitiesToDelete.Contains(e)).ToListAsync();
+            dbSet.RemoveRange(entities);
+            await SaveAsync();
+            return entities;
+        }
+        public async Task DeleteAllAsync()
+        {
+            var all = await GetAllAsync();
+            dbSet.RemoveRange(all);
+            await SaveAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await dbSet.ToListAsync();
         }
-
+        //public async Task<List<T>> GetMultipleAsync(List<T> list)
+        //{
+        //    return await dbSet.Where(e=>list.Contains(e)).ToListAsync();
+        //}
         public async Task<T> GetAsync(Expression<Func<T, bool>> propertyName)
         {
             return await dbSet.FirstOrDefaultAsync(propertyName);
@@ -62,5 +75,12 @@ namespace UserManagement_DataAccess.InterfacesImplementation
             await SaveAsync();
 
         }
+
+        public async Task<List<T>> GetMutipleAsync(IEnumerable<T> list)
+        {
+            return await dbSet.Where(e => list.Contains(e)).ToListAsync();
+        }
+
+        
     }
 }

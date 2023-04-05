@@ -16,6 +16,7 @@ builder.Services.AddDbContext<UserManagementContext>(option => option.UseSqlServ
         builder.Configuration.GetConnectionString("UsersConnection")
     ));
 builder.Services.AddScoped<IRepository<Users>, Repository<Users>>();
+builder.Services.AddScoped<IUser, UserRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
