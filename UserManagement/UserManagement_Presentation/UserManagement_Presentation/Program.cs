@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<UserManagementContext>(option => option.UseSqlServer(
         builder.Configuration.GetConnectionString("UsersConnection")
     ));
-builder.Services.AddScoped<IRepository<Users>, Repository<Users>>();
+builder.Services.AddScoped<IRepository<User>, Repository<User>>();
 builder.Services.AddScoped<IUser, UserRepository>();
 var app = builder.Build();
 

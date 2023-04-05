@@ -8,8 +8,8 @@ using Usermanagement_Domain.Models;
 
 namespace Usermanagement_Domain.Interfaces
 {
-    public interface IUser: IRepository<Users>
+    public interface IUser: IRepository<User>
     {
-        Task<List<Users>> GetFilteredUsersAsync(UserFilter filter);
+        Task<List<User>> GetFilteredUsersAsync(UserFilter filter);
     }
 }

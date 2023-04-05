@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using UserManagement_DataAccess;
-using UserManagement_DataAccess.InterfacesImplementation;
 using Usermanagement_Domain.DTOs;
 using Usermanagement_Domain.Interfaces;
 using Usermanagement_Domain.Models;
@@ -24,9 +21,9 @@ namespace UserManagement_Presentation.Controllers
         }
 
         [HttpGet("AllUsers")]
-        public async Task<IEnumerable<Users>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            IEnumerable<Users> users = await _repo.GetAllAsync();
+            IEnumerable<User> users = await _repo.GetAllAsync();
             return users;
         }
         [HttpGet("User/{username}")]
@@ -40,12 +37,6 @@ namespace UserManagement_Presentation.Controllers
             }
             return Ok(user);
         }
-        //[HttpGet("/multiple/{usernames}")]
-        //public async Task<IActionResult> GetMultipleUsers(IList<string> list)
-        //{
-        //    var users = await _repo.GetMutipleAsync(list);
-        //    //return users;
-        //}
         [HttpPost]
         public async Task<ActionResult<UpsertDTO>> RegisterUser(UpsertDTO regDTO)
         {
@@ -59,7 +50,7 @@ namespace UserManagement_Presentation.Controllers
             {
                 return BadRequest("Username exists");
             }
-            Users newuser = new Users()
+            User newuser = new User()
             {
                 UserName = regDTO.UserName,
                 Password = regDTO.Password,
@@ -117,7 +108,6 @@ namespace UserManagement_Presentation.Controllers
                 return BadRequest("Invalid Input");
             }
 
-            //var users = await _repo.GetFilteredUsersAsync(filter);
             var users = await _repo.GetFilteredUsersAsync(filter);
 
             return Ok(users);
@@ -139,49 +129,11 @@ namespace UserManagement_Presentation.Controllers
             await _repo.DeleteAsync(d=>userExist.UserName == username);
             return Ok($"'{username}' successfully deleted");
         }
-        [HttpDelete("/{specificUsers}")]
-        public async Task<IActionResult> DeleteSpecificUsers([FromBody] List<string> usernames)
+        [HttpDelete("DeleteAll")]
+        public async Task<IActionResult> DeleteAllUsers()
         {
-            if(usernames == null)
-            {
-                return BadRequest("Invalid Input");
-            }
-            List<string> failedToDelete = new List<string>();
-            List<string> successfulDeletions = new List<string>();
-            
-            var usersToDelete = await _repo.GetAsync(u=>usernames.Contains(u.UserName));
-            //foreach(var user in usersToDelete)
-            //{
-            //    failedToDelete.Add(user.UserName);
-            //}
-            if (usersToDelete == null)
-            {
-                return NotFound($"The specified usernames are not found");
-            }
-
-            //var delete = await _repo.DeleteMultipleAsync(usersToDelete);
-            //if (usersToDelete.Count <= usernames.Count)
-            //{
-            //    _context.Users.RemoveRange(usersToDelete);
-            //    await _context.SaveChangesAsync();
-
-            //    foreach (var username in usernames)
-            //    {
-            //        if (usersToDelete.Any(u => u.UserName == username))
-            //        {
-            //            successfulDeletions.Add(username);
-            //        }
-            //        else
-            //        {
-            //            failedToDelete.Add(username);
-            //        }
-            //    }
-            //    if (failedToDelete.Count > 0)
-            //    {
-            //        return BadRequest($"The following username(s) {string.Join(",", failedToDelete)} were not deleted. Reason: Usernames not found");
-            //    }
-            //}
-            return Ok($"Deleted the following users: {string.Join(",", successfulDeletions)}");
+            await _repo.DeleteAllAsync();
+            return Ok();
         }
 
     }

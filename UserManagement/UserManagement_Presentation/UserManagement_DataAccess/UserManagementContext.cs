@@ -13,6 +13,6 @@ namespace UserManagement_DataAccess
         public UserManagementContext(DbContextOptions options) : base(options)
         {
         }
-        public DbSet<Users> Users { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
