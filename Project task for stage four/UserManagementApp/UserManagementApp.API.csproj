@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UserManagementApp.DataAccess\UserManagementApp.DataAccess.csproj" />
+    <ProjectReference Include="..\UserManagementApp.Domain\UserManagementApp.Domain.csproj" />
     <ProjectReference Include="..\UserManagementApp.Dtos\UserManagementApp.Dtos.csproj" />
   </ItemGroup>
 

@@ -5,11 +5,11 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagementApp.API", "UserManagementApp.API.csproj", "{62E273C4-9071-4AEC-BF20-F25EA7DA56E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagementApp.Domain", "..\UserMangementApp.Domain\UserManagementApp.Domain.csproj", "{8A76CF6D-C40E-4C87-80C9-8DE7578BF051}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagementApp.DataAccess", "..\UserManagementApp.DataAccess\UserManagementApp.DataAccess.csproj", "{9A0DF820-A241-43D4-95D3-056A272176CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagementApp.Dtos", "..\UserManagementApp.Dtos\UserManagementApp.Dtos.csproj", "{6BA54F21-D26A-42E6-840E-50C94C3054C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserManagementApp.Dtos", "..\UserManagementApp.Dtos\UserManagementApp.Dtos.csproj", "{6BA54F21-D26A-42E6-840E-50C94C3054C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserManagementApp.Domain", "..\UserManagementApp.Domain\UserManagementApp.Domain.csproj", "{D0D9D5E1-4169-4159-8CA0-93034EC085BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{62E273C4-9071-4AEC-BF20-F25EA7DA56E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62E273C4-9071-4AEC-BF20-F25EA7DA56E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62E273C4-9071-4AEC-BF20-F25EA7DA56E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A76CF6D-C40E-4C87-80C9-8DE7578BF051}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A76CF6D-C40E-4C87-80C9-8DE7578BF051}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A76CF6D-C40E-4C87-80C9-8DE7578BF051}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A76CF6D-C40E-4C87-80C9-8DE7578BF051}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A0DF820-A241-43D4-95D3-056A272176CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A0DF820-A241-43D4-95D3-056A272176CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A0DF820-A241-43D4-95D3-056A272176CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{6BA54F21-D26A-42E6-840E-50C94C3054C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BA54F21-D26A-42E6-840E-50C94C3054C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BA54F21-D26A-42E6-840E-50C94C3054C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D9D5E1-4169-4159-8CA0-93034EC085BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D9D5E1-4169-4159-8CA0-93034EC085BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D9D5E1-4169-4159-8CA0-93034EC085BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D9D5E1-4169-4159-8CA0-93034EC085BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
