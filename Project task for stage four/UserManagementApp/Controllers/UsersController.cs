@@ -38,7 +38,7 @@ namespace UserManagementApp.API.Controllers
             return Ok(newUser);
         }
 
-        [HttpGet("/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetUserById(int id)
         {
             var user = _unitOfWork.User.GetById(id);
@@ -46,7 +46,7 @@ namespace UserManagementApp.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         public IActionResult UpdateUser(int id, [FromBody] UserDto userDto)
         {
             var updateUser = _unitOfWork.User.GetById(id);
@@ -67,7 +67,7 @@ namespace UserManagementApp.API.Controllers
             return NoContent();
         }
 
-        [HttpGet("/FliterUserInfo")]
+        [HttpGet("FliterUserInfo")]
         public IActionResult GetUsersWithFilter(int? age, string? gender, string? maritalStatus, string? address)
         {
             var users = _unitOfWork.User.Find(u =>
